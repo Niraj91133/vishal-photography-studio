@@ -1,0 +1,125 @@
+import { Camera, Instagram, Facebook, Twitter, Mail, Phone, MapPin, Heart } from 'lucide-react';
+
+export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="bg-dark-900 pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-600/20 to-transparent"></div>
+
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+
+          {/* Brand Column */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 mb-6">
+              <Camera className="w-8 h-8 text-gold-600" />
+              <span className="text-2xl font-serif font-bold text-white">
+                Golden<span className="text-gold-600">Shutter</span>
+              </span>
+            </div>
+            <p className="text-gray-400 font-light leading-relaxed">
+              Capturing the essence of your most beautiful moments with elegance and artistry. We turn memories into timeless treasures.
+            </p>
+            <div className="flex gap-4">
+              <a href="https://instagram.com" className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center hover:bg-gold-600 hover:text-dark-900 text-gray-400 transition-all duration-300">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="https://facebook.com" className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center hover:bg-gold-600 hover:text-dark-900 text-gray-400 transition-all duration-300">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="https://twitter.com" className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center hover:bg-gold-600 hover:text-dark-900 text-gray-400 transition-all duration-300">
+                <Twitter className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-white text-lg font-serif mb-8 flex items-center gap-2">
+              Explore
+              <span className="h-px w-8 bg-gold-600"></span>
+            </h4>
+            <ul className="space-y-4">
+              {['Home', 'Services', 'Gallery', 'Packages', 'Testimonials', 'Contact'].map((item) => (
+                <li key={item}>
+                  <a href={`#${item.toLowerCase()} `} className="text-gray-400 hover:text-gold-500 transition-colors uppercase text-sm tracking-wider">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h4 className="text-white text-lg font-serif mb-8 flex items-center gap-2">
+              Services
+              <span className="h-px w-8 bg-gold-600"></span>
+            </h4>
+            <ul className="space-y-4">
+              {['Wedding Photography', 'Cinematic Films', 'Candid Photography', 'Pre-Wedding Shoots', 'Event Coverage', 'Product Shoots'].map((item) => (
+                <li key={item}>
+                  <a href="#services" className="text-gray-400 hover:text-gold-500 transition-colors text-sm font-light">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="text-white text-lg font-serif mb-8 flex items-center gap-2">
+              Contact
+              <span className="h-px w-8 bg-gold-600"></span>
+            </h4>
+            <ul className="space-y-6">
+              <li className="flex items-start gap-4">
+                <MapPin className="w-5 h-5 text-gold-500 flex-shrink-0 mt-1" />
+                <span className="text-gray-400 font-light text-sm">NH-82, Highway, Opposite City Public School, Sikahar, Gaya, Bihar 823003</span>
+              </li>
+              <li className="flex items-center gap-4">
+                <Phone className="w-5 h-5 text-gold-500 flex-shrink-0" />
+                <a href="tel:8809295961" className="text-gray-400 hover:text-gold-500 transition-colors font-light text-sm">+91 88092 95961</a>
+              </li>
+              <li className="flex items-center gap-4">
+                <Mail className="w-5 h-5 text-gold-500 flex-shrink-0" />
+                <a href="mailto:info@goldenshutter.in" className="text-gray-400 hover:text-gold-500 transition-colors font-light text-sm">info@goldenshutter.in</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-white/5 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-sm font-light">
+            © {currentYear} Golden Shutter Photography. All rights reserved.
+          </p>
+          <p className="text-gray-500 text-sm font-light flex items-center gap-1">
+            Made with <Heart className="w-3 h-3 text-gold-600 fill-current" /> in Bihar
+          </p>
+        </div>
+      </div>
+
+      {/* Mobile Floating Action Bar - kept for utility but styled better */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-dark-900 border-t border-white/10 z-50 px-6 py-4 flex justify-between items-center backdrop-blur-md bg-opacity-95 text-xs font-medium uppercase tracking-wider">
+        <a href="tel:8809295961" className="flex flex-col items-center gap-1 text-gold-500">
+          <Phone className="w-5 h-5" />
+          <span>Call</span>
+        </a>
+        <a href="https://wa.me/918809295961" className="flex flex-col items-center gap-1 text-green-500">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" className="w-5 h-5" alt="WA" />
+          <span>Chat</span>
+        </a>
+        <a href="#gallery" className="flex flex-col items-center gap-1 text-white">
+          <Camera className="w-5 h-5" />
+          <span>Work</span>
+        </a>
+        <a href="#packages" className="flex flex-col items-center gap-1 text-white">
+          <Heart className="w-5 h-5" />
+          <span>Plans</span>
+        </a>
+      </div>
+    </footer>
+  );
+}
