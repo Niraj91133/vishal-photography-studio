@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Phone, ChevronDown } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 interface HeroProps {
   onNavClick: (section: string) => void;
@@ -7,12 +8,31 @@ interface HeroProps {
 
 export default function Hero({ onNavClick }: HeroProps) {
   const [offset, setOffset] = useState(0);
+  const [heroContent, setHeroContent] = useState<any>(null);
 
   useEffect(() => {
     const handleScroll = () => setOffset(window.pageYOffset);
     window.addEventListener('scroll', handleScroll);
+
+    const fetchHero = async () => {
+      if (!supabase) return;
+      const { data } = await supabase
+        .from('site_images')
+        .select('*')
+        .eq('section', 'hero')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (data && data.length > 0) {
+        setHeroContent(data[0]);
+      }
+    };
+
+    fetchHero();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const defaultHero = "https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop";
 
   return (
     <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-dark-900">
@@ -21,28 +41,36 @@ export default function Hero({ onNavClick }: HeroProps) {
         className="absolute inset-0 z-0"
         style={{ transform: `translateY(${offset * 0.5}px)` }}
       >
-        <img
-          src="https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
-          alt="Wedding photography"
-          className="w-full h-full object-cover scale-110 opacity-70"
-        />
+        {heroContent?.media_type === 'video' ? (
+          <video
+            src={heroContent.url}
+            className="w-full h-full object-cover scale-110 opacity-70"
+            autoPlay muted loop playsInline
+          />
+        ) : (
+          <img
+            src={heroContent?.url || defaultHero}
+            alt="Photography background"
+            className="w-full h-full object-cover scale-110 opacity-70"
+          />
+        )}
         {/* Premium Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-dark-900/60 via-dark-900/40 to-dark-900/90" />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center text-white px-6 w-full max-w-5xl mx-auto mt-20">
-        <h1 className="font-serif text-5xl md:text-8xl font-medium mb-6 leading-tight fade-in tracking-tight">
+      <div className="relative z-10 text-center text-white px-6 md:px-12 w-full mt-20">
+        <h1 className="font-serif text-[clamp(2.5rem,10vw,5rem)] md:text-8xl font-medium mb-4 md:mb-6 leading-[1.1] md:leading-tight fade-in tracking-tight max-w-4xl mx-auto">
           Golden Shutter
-          <span className="block text-3xl md:text-5xl font-light text-gold-400 mt-4 italic tracking-normal">
+          <span className="block text-[clamp(1.5rem,5vw,3rem)] md:text-5xl font-light text-gold-400 mt-2 md:mt-4 italic tracking-normal">
             Photography
           </span>
         </h1>
 
-        <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-10 opacity-60"></div>
+        <div className="w-16 md:w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-8 md:mb-10 opacity-60"></div>
 
-        <p className="font-sans text-lg md:text-xl font-light mb-16 max-w-2xl mx-auto leading-relaxed text-gray-200 tracking-wide fade-in" style={{ animationDelay: '0.2s' }}>
+        <p className="font-sans text-base md:text-xl font-light mb-12 md:mb-16 max-w-2xl mx-auto leading-relaxed text-gray-200 tracking-wide fade-in px-4" style={{ animationDelay: '0.2s' }}>
           Capturing life's most precious moments with elegance, emotion, and timeless artistry.
         </p>
 

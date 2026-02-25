@@ -1,4 +1,4 @@
-import { Camera, Instagram, Facebook, Twitter, Mail, Phone, MapPin, Heart } from 'lucide-react';
+import { Camera, Instagram, Facebook, Twitter, Mail, Phone, MapPin, Heart, MessageSquare, Layers } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -95,29 +95,32 @@ export default function Footer() {
           <p className="text-gray-500 text-sm font-light">
             © {currentYear} Golden Shutter Photography. All rights reserved.
           </p>
-          <p className="text-gray-500 text-sm font-light flex items-center gap-1">
-            Made with <Heart className="w-3 h-3 text-gold-600 fill-current" /> in Bihar
-          </p>
+          <div className="flex items-center gap-6">
+            <a href="/admin/login" className="text-gray-500 hover:text-gold-500 text-xs transition-colors uppercase tracking-widest">Admin Login</a>
+            <p className="text-gray-500 text-sm font-light flex items-center gap-1">
+              Made with <Heart className="w-3 h-3 text-gold-600 fill-current" /> in Bihar
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Floating Action Bar - kept for utility but styled better */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-dark-900 border-t border-white/10 z-50 px-6 py-4 flex justify-between items-center backdrop-blur-md bg-opacity-95 text-xs font-medium uppercase tracking-wider">
-        <a href="tel:8809295961" className="flex flex-col items-center gap-1 text-gold-500">
-          <Phone className="w-5 h-5" />
-          <span>Call</span>
+      {/* Mobile Floating Bottom Navigation - Reduced & Polished */}
+      <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm bg-dark-900/80 backdrop-blur-xl border border-white/10 z-50 rounded-full h-14 flex justify-around items-center px-4 shadow-2xl shadow-black/50">
+        <a href="tel:8809295961" className="flex flex-col items-center gap-0.5 text-gold-500 transition-transform active:scale-90">
+          <Phone className="w-4 h-4" />
+          <span className="text-[8px] uppercase font-black tracking-widest">Call</span>
         </a>
-        <a href="https://wa.me/918809295961" className="flex flex-col items-center gap-1 text-green-500">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" className="w-5 h-5" alt="WA" />
-          <span>Chat</span>
+        <a href="https://wa.me/918809295961" className="flex flex-col items-center gap-0.5 text-gray-400 transition-transform active:scale-90">
+          <MessageSquare className="w-4 h-4" />
+          <span className="text-[8px] uppercase font-black tracking-widest">Wa</span>
         </a>
-        <a href="#gallery" className="flex flex-col items-center gap-1 text-white">
-          <Camera className="w-5 h-5" />
-          <span>Work</span>
+        <a href="#gallery" className="flex flex-col items-center gap-0.5 text-gray-400 transition-transform active:scale-90">
+          <Camera className="w-4 h-4" />
+          <span className="text-[8px] uppercase font-black tracking-widest">Work</span>
         </a>
-        <a href="#packages" className="flex flex-col items-center gap-1 text-white">
-          <Heart className="w-5 h-5" />
-          <span>Plans</span>
+        <a href="#packages" className="flex flex-col items-center gap-0.5 text-gray-400 transition-transform active:scale-90">
+          <Layers className="w-4 h-4" />
+          <span className="text-[8px] uppercase font-black tracking-widest">Plans</span>
         </a>
       </div>
     </footer>

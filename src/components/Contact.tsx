@@ -34,7 +34,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-32 bg-dark-900 relative border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="w-full px-12">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
 
           {/* Contact Info */}

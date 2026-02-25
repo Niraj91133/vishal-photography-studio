@@ -1,18 +1,29 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
+import WhyChooseUs from './components/WhyChooseUs';
+import Process from './components/Process';
 import Gallery from './components/Gallery';
 import Testimonials from './components/Testimonials';
 import Packages from './components/Packages';
+import CTA from './components/CTA';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import AdminLogin from './components/admin/AdminLogin';
+import AdminDashboard from './components/admin/AdminDashboard';
+import ProtectedRoute from './components/admin/ProtectedRoute';
 
-function App() {
+function MainSite() {
   const [activeSection, setActiveSection] = useState('hero');
+  const [activeGalleryFilter, setActiveGalleryFilter] = useState('All');
 
-  const handleNavClick = (section: string) => {
+  const handleNavClick = (section: string, filter?: string) => {
+    if (filter) {
+      setActiveGalleryFilter(filter);
+    }
     const element = document.getElementById(section);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -43,15 +54,18 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-dark-900 text-white font-sans selection:bg-gold-500 selection:text-white">
+    <div className="min-h-screen bg-white text-dark-900 font-sans selection:bg-gold-500 selection:text-white">
       <Header activeSection={activeSection} onNavClick={handleNavClick} />
       <main>
         <Hero onNavClick={handleNavClick} />
-        <About />
-        <Services />
-        <Gallery />
+        <Services onCategoryClick={(cat: string) => handleNavClick('gallery', cat)} />
+        <Process />
+        <Gallery activeFilter={activeGalleryFilter} setActiveFilter={setActiveGalleryFilter} />
+        <WhyChooseUs />
         <Packages />
+        <About />
         <Testimonials />
+        <CTA />
         <Contact />
       </main>
       <Footer />
@@ -59,6 +73,23 @@ function App() {
       {/* Add bottom padding for mobile bottom bar */}
       <div className="h-20 md:hidden block bg-dark-900"></div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<MainSite />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 

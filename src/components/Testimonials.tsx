@@ -1,120 +1,107 @@
 import { Star, Quote } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+
+const DEFAULT_TESTIMONIALS = [
+  {
+    name: 'Priya & Rahul',
+    event: 'Wedding, Patna',
+    rating: 5,
+    text: 'Golden Shutter captured our special day beautifully. Every moment was perfect!',
+    initials: 'PR'
+  },
+  {
+    name: 'Anjali Sharma',
+    event: 'Pre-Wedding, Bodhgaya',
+    rating: 5,
+    text: 'Professional team with amazing creativity. Highly recommend for any occasion!',
+    initials: 'AS'
+  },
+  {
+    name: 'Vikash Kumar',
+    event: 'Birthday Party, Gaya',
+    rating: 5,
+    text: 'Excellent service and beautiful photos. They made our celebration memorable.',
+    initials: 'VK'
+  }
+];
 
 export default function Testimonials() {
-  const testimonials = [
-    {
-      name: 'Priya & Rahul',
-      event: 'Wedding, Patna',
-      rating: 5,
-      text: 'Golden Shutter captured our special day beautifully. Every moment was perfect!',
-      initials: 'PR'
-    },
-    {
-      name: 'Anjali Sharma',
-      event: 'Pre-Wedding, Bodhgaya',
-      rating: 5,
-      text: 'Professional team with amazing creativity. Highly recommend for any occasion!',
-      initials: 'AS'
-    },
-    {
-      name: 'Vikash Kumar',
-      event: 'Birthday Party, Gaya',
-      rating: 5,
-      text: 'Excellent service and beautiful photos. They made our celebration memorable.',
-      initials: 'VK'
-    },
-    {
-      name: 'Ritu & Amit',
-      event: 'Wedding, Bihar Sharif',
-      rating: 5,
-      text: 'Outstanding quality and professional approach. Best photography team in Bihar!',
-      initials: 'RA'
-    },
-    {
-      name: 'Deepak Enterprises',
-      event: 'Product Shoot, Patna',
-      rating: 5,
-      text: 'Amazing commercial photography that boosted our brand presence significantly.',
-      initials: 'DE'
-    }
-  ];
+  const [testimonials, setTestimonials] = useState<any[]>(DEFAULT_TESTIMONIALS);
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      if (!supabase) return;
+      try {
+        const { data, error } = await supabase
+          .from('site_images')
+          .select('*')
+          .eq('section', 'testimonials');
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const formatted = data.map((item: any) => ({
+            name: item.title,
+            event: item.category,
+            rating: 5,
+            text: item.description || 'Excellent work!',
+            initials: item.title.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2),
+            url: item.url
+          }));
+          setTestimonials(formatted);
+        }
+      } catch (err) {
+        console.error('Error fetching testimonials:', err);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   return (
-    <section id="testimonials" className="py-32 bg-dark-800 relative">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-500/20 to-transparent"></div>
-
-      <div className="max-w-7xl mx-auto px-6 relative">
-        <div className="text-center mb-20">
-          <p className="text-gold-600 font-medium tracking-widest uppercase text-sm mb-3">Testimonials</p>
-          <h2 className="text-4xl md:text-6xl text-white mb-6 font-serif">
-            Client Love
-          </h2>
-          <div className="w-16 h-1 bg-gold-600 mx-auto rounded-full"></div>
+    <section id="testimonials" className="py-24 md:py-40 bg-white border-b border-gray-100 relative">
+      <div className="w-full">
+        <div className="text-center mb-24 w-full px-12 space-y-4">
+          <span className="text-gold-600 font-bold uppercase tracking-[0.3em] text-[10px]">Kind Words</span>
+          <h2 className="text-4xl md:text-5xl font-serif text-dark-950 font-medium leading-tight">Client Love</h2>
+          <div className="w-12 h-[2px] bg-gold-200 mx-auto"></div>
         </div>
 
-        {/* Horizontal Scroll Container */}
-        <div className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+        {/* Premium Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="p-8 bg-dark-900 rounded-sm border border-white/5 hover:border-gold-600/30 transition-all duration-300 relative group"
+              className="p-10 md:p-12 bg-white rounded-2xl border border-gray-100 shadow-sm transition-all duration-500 flex flex-col items-center text-center relative"
             >
-              <Quote className="absolute top-8 right-8 w-12 h-12 text-gold-600/10 group-hover:text-gold-600/20 transition-colors" />
+              <Quote className="text-gold-100 w-16 h-16 absolute top-8 left-8 -z-0 opacity-40 transition-colors" />
 
-              <div className="flex items-center mb-8">
-                <div className="w-14 h-14 bg-gradient-to-br from-gold-400 to-gold-600 rounded-sm flex items-center justify-center text-dark-900 font-serif font-bold text-xl mr-4 shadow-lg">
-                  {testimonial.initials}
-                </div>
-                <div>
-                  <h4 className="font-serif text-lg text-white mb-1">{testimonial.name}</h4>
-                  <p className="text-sm text-gold-500/80 uppercase tracking-wider text-[10px]">{testimonial.event}</p>
-                </div>
-              </div>
-
-              <div className="flex mb-6">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-gold-400 fill-current" />
-                ))}
-              </div>
-
-              <p className="text-gray-300 leading-relaxed font-light">
-                "{testimonial.text}"
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Mobile Scroll */}
-        <div className="md:hidden -mx-6 px-6">
-          <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide snap-x-mandatory py-4">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="flex-none w-[85vw] max-w-sm p-8 bg-dark-900 rounded-sm border border-white/5 snap-center relative"
-              >
-                <Quote className="absolute top-6 right-6 w-10 h-10 text-gold-600/10" />
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-gold-600 rounded-sm flex items-center justify-center text-dark-900 font-serif font-bold text-lg mr-4">
-                    {testimonial.initials}
-                  </div>
-                  <div>
-                    <h4 className="font-serif text-lg text-white">{testimonial.name}</h4>
-                    <p className="text-xs text-gold-500/80 uppercase tracking-widest">{testimonial.event}</p>
-                  </div>
-                </div>
-
-                <div className="flex mb-4">
+              <div className="relative z-10 space-y-8">
+                <div className="flex justify-center gap-1">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-gold-400 fill-current" />
+                    <Star key={i} className="w-3 h-3 text-gold-500 fill-current" />
                   ))}
                 </div>
 
-                <p className="text-gray-300 leading-relaxed font-light text-sm">
+                <p className="text-gray-600 font-light italic leading-relaxed text-lg">
                   "{testimonial.text}"
                 </p>
+
+                <div className="pt-8 border-t border-gray-50 flex flex-col items-center">
+                  <div className="w-16 h-16 bg-gold-50 border border-gold-100 rounded-full flex items-center justify-center text-gold-700 font-serif font-bold text-xl mb-4 overflow-hidden">
+                    {testimonial.url ? (
+                      <img src={testimonial.url} alt={testimonial.name} className="w-full h-full object-cover" />
+                    ) : (
+                      testimonial.initials
+                    )}
+                  </div>
+                  <h4 className="font-bold text-dark-950 text-base">{testimonial.name}</h4>
+                  <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest mt-1">{testimonial.event}</p>
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

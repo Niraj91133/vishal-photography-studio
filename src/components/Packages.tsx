@@ -1,38 +1,74 @@
 import { Check, Download } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+
+const DEFAULT_PACKAGES = [
+  {
+    name: 'Traditional Package',
+    price: '₹45,000 – ₹60,000',
+    description: 'Perfect for traditional ceremonies and celebrations',
+    features: [
+      '2–3 Professional Cameramen',
+      'DSLR, LED lights, optional drone',
+      '1–3 Days Coverage',
+      'Photo Editing (basic)',
+      'Online Gallery Access'
+    ],
+    popular: false
+  },
+  {
+    name: 'Storytelling Story',
+    price: '₹65,000 – ₹3,00,000',
+    description: 'Complete coverage with cinematic storytelling',
+    features: [
+      'Cinematic Short Film + Full Coverage',
+      'Drone + Gimbal Setup',
+      'Candid + Traditional Photos',
+      'Premium Online Gallery'
+    ],
+    popular: true
+  }
+];
 
 export default function Packages() {
-  const packages = [
-    {
-      name: 'Traditional Package',
-      price: '₹45,000 – ₹60,000',
-      description: 'Perfect for traditional ceremonies and celebrations',
-      features: [
-        '2–3 Professional Cameramen',
-        'DSLR, LED lights, optional drone',
-        '1–3 Days Coverage',
-        'Photo Editing (basic)',
-        'Optional Album',
-        'Online Gallery Access'
-      ],
-      popular: false
-    },
-    {
-      name: 'Cinematic + Candid + Traditional',
-      price: '₹65,000 – ₹3,00,000',
-      description: 'Complete coverage with cinematic storytelling',
-      features: [
-        'Cinematic Short Film + Full Coverage',
-        'Drone + Gimbal + Multiple Camera Setup',
-        '2–5 Days Coverage',
-        'Candid + Traditional Photos',
-        'Advanced Editing + Album',
-        'Same Day Editing Available',
-        'Premium Online Gallery',
-        'Social Media Ready Content'
-      ],
-      popular: true
-    }
-  ];
+  const [packages, setPackages] = useState<any[]>(DEFAULT_PACKAGES);
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      if (!supabase) return;
+      try {
+        const { data, error } = await supabase
+          .from('site_images')
+          .select('*')
+          .eq('section', 'packages')
+          .order('created_at', { ascending: true });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const formatted = data.map((item: any) => {
+            const [name, price] = item.title.includes('|')
+              ? item.title.split('|').map((s: string) => s.trim())
+              : [item.title, 'Contact for Price'];
+
+            return {
+              name: name,
+              price: price,
+              description: item.category, // Using category as a sub-text/description
+              features: item.description?.split('\n').filter((f: string) => f.trim()) || [],
+              popular: item.category.toLowerCase().includes('premium') || item.category.toLowerCase().includes('popular'),
+              url: item.url
+            };
+          });
+          setPackages(formatted);
+        }
+      } catch (err) {
+        console.error('Error fetching packages:', err);
+      }
+    };
+
+    fetchPackages();
+  }, []);
 
   return (
     <section id="packages" className="py-32 bg-dark-900 border-t border-white/5 relative overflow-hidden">
@@ -40,8 +76,8 @@ export default function Packages() {
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-10"></div>
       <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gold-600/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
+      <div className="w-full px-12 relative z-10">
+        <div className="text-center mb-20 w-full">
           <p className="text-gold-600 font-medium tracking-widest uppercase text-sm mb-3">Investment</p>
           <h2 className="text-4xl md:text-6xl text-white mb-6 font-serif">
             Curated Collections
@@ -80,7 +116,7 @@ export default function Packages() {
               </div>
 
               <div className="space-y-4 mb-10">
-                {pkg.features.map((feature, featureIndex) => (
+                {pkg.features.map((feature: string, featureIndex: number) => (
                   <div key={featureIndex} className="flex items-center">
                     <Check className={`w-5 h-5 mr-4 flex-shrink-0 ${pkg.popular ? 'text-gold-500' : 'text-gray-500'}`} />
                     <span className="text-gray-300 font-light">{feature}</span>
@@ -140,7 +176,7 @@ export default function Packages() {
                 </div>
 
                 <div className="space-y-3 mb-8">
-                  {pkg.features.map((feature, featureIndex) => (
+                  {pkg.features.map((feature: string, featureIndex: number) => (
                     <div key={featureIndex} className="flex items-start">
                       <Check className={`w-4 h-4 mr-3 mt-1 flex-shrink-0 ${pkg.popular ? 'text-gold-500' : 'text-gray-600'}`} />
                       <span className="text-gray-300 text-sm font-light">{feature}</span>
