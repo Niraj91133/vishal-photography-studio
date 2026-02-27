@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera, Lock, User } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export default function AdminLogin() {
     const [username, setUsername] = useState('');
@@ -8,15 +9,39 @@ export default function AdminLogin() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (username === 'SumanKumari69' && password === 'Suman69') {
-            localStorage.setItem('adminLoggedIn', 'true');
-            navigate('/admin/dashboard');
-        } else {
-            setError('Invalid credentials');
+        setError('');
+
+        try {
+            // Fetch credentials from Supabase
+            const { data } = await supabase
+                .from('site_settings')
+                .select('admin_id, admin_password')
+                .eq('id', 1)
+                .maybeSingle();
+
+            // Default credentials if settings not found
+            const validUser = data?.admin_id || 'SumanKumari69';
+            const validPass = data?.admin_password || 'Suman69';
+
+            if (username === validUser && password === validPass) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                navigate('/admin/dashboard');
+            } else {
+                setError('Invalid credentials');
+            }
+        } catch (err) {
+            // Fallback for missing table
+            if (username === 'SumanKumari69' && password === 'Suman69') {
+                localStorage.setItem('adminLoggedIn', 'true');
+                navigate('/admin/dashboard');
+            } else {
+                setError('Login failed. Please try again.');
+            }
         }
     };
+
 
     return (
         <div className="min-h-screen bg-dark-900 flex items-center justify-center px-4">

@@ -14,7 +14,8 @@ const DEFAULT_PACKAGES = [
       'Photo Editing (basic)',
       'Online Gallery Access'
     ],
-    popular: false
+    popular: false,
+    plan: 'Basic Plan'
   },
   {
     name: 'Storytelling Story',
@@ -26,12 +27,17 @@ const DEFAULT_PACKAGES = [
       'Candid + Traditional Photos',
       'Premium Online Gallery'
     ],
-    popular: true
+    popular: true,
+    plan: 'Premium Plan'
   }
 ];
 
+
+
 export default function Packages() {
   const [packages, setPackages] = useState<any[]>(DEFAULT_PACKAGES);
+  const [activeTab, setActiveTab] = useState<'Basic Plan' | 'Premium Plan'>('Basic Plan');
+
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -54,7 +60,8 @@ export default function Packages() {
             return {
               name: name,
               price: price,
-              description: item.category, // Using category as a sub-text/description
+              plan: item.category, // Storing plan name (Basic Plan/Premium Plan) in category
+              description: item.category,
               features: item.description?.split('\n').filter((f: string) => f.trim()) || [],
               popular: item.category.toLowerCase().includes('premium') || item.category.toLowerCase().includes('popular'),
               url: item.url
@@ -62,6 +69,7 @@ export default function Packages() {
           });
           setPackages(formatted);
         }
+
       } catch (err) {
         console.error('Error fetching packages:', err);
       }
@@ -70,6 +78,12 @@ export default function Packages() {
     fetchPackages();
   }, []);
 
+  const filteredPackages = packages.filter(pkg =>
+    pkg.description === activeTab || // In my new admin, I might store the plan name in description or category
+    pkg.plan === activeTab // I'll update the formatting below to include 'plan'
+  );
+
+
   return (
     <section id="packages" className="py-32 bg-dark-900 border-t border-white/5 relative overflow-hidden">
       {/* Background Texture */}
@@ -77,17 +91,35 @@ export default function Packages() {
       <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gold-600/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
 
       <div className="w-full px-12 relative z-10">
-        <div className="text-center mb-20 w-full">
+        <div className="text-center mb-16 w-full">
           <p className="text-gold-600 font-medium tracking-widest uppercase text-sm mb-3">Investment</p>
-          <h2 className="text-4xl md:text-6xl text-white mb-6 font-serif">
-            Curated Collections
+          <h2 className="text-4xl md:text-6xl text-white mb-8 font-serif">
+            Packages
           </h2>
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex p-1 bg-dark-800 rounded-full border border-white/5">
+              {(['Basic Plan', 'Premium Plan'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all ${activeTab === tab
+                    ? 'bg-gold-600 text-dark-900 shadow-lg'
+                    : 'text-gray-400 hover:text-white'
+                    }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="w-16 h-1 bg-gold-600 mx-auto rounded-full"></div>
         </div>
 
+
         {/* Desktop Grid */}
         <div className="hidden lg:grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {packages.map((pkg, index) => (
+          {filteredPackages.map((pkg, index) => (
+
             <div
               key={index}
               className={`relative p-10 rounded-sm transition-all duration-300 group hover:-translate-y-2 ${pkg.popular
@@ -147,7 +179,8 @@ export default function Packages() {
         {/* Mobile View */}
         <div className="lg:hidden -mx-6 px-6 pb-8">
           <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide snap-x-mandatory py-4">
-            {packages.map((pkg, index) => (
+            {filteredPackages.map((pkg, index) => (
+
               <div
                 key={index}
                 className={`flex-none w-[90vw] max-w-sm relative p-8 rounded-sm snap-center transition-all duration-300 ${pkg.popular

@@ -1,7 +1,10 @@
-import { Camera, Instagram, Facebook, Twitter, Mail, Phone, MapPin, Heart, MessageSquare, Layers } from 'lucide-react';
+import { Camera, Instagram, Facebook, Mail, Phone, MapPin, Heart, MessageSquare, Layers } from 'lucide-react';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 
 export default function Footer() {
+  const settings = useSiteSettings();
   const currentYear = new Date().getFullYear();
+
 
   return (
     <footer className="bg-dark-900 pt-24 pb-12 border-t border-white/5 relative overflow-hidden">
@@ -22,16 +25,14 @@ export default function Footer() {
               Capturing the essence of your most beautiful moments with elegance and artistry. We turn memories into timeless treasures.
             </p>
             <div className="flex gap-4">
-              <a href="https://instagram.com" className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center hover:bg-gold-600 hover:text-dark-900 text-gray-400 transition-all duration-300">
+              <a href={settings.instagram_link} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center hover:bg-gold-600 hover:text-dark-900 text-gray-400 transition-all duration-300">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="https://facebook.com" className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center hover:bg-gold-600 hover:text-dark-900 text-gray-400 transition-all duration-300">
+              <a href={settings.facebook_link} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center hover:bg-gold-600 hover:text-dark-900 text-gray-400 transition-all duration-300">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="https://twitter.com" className="w-10 h-10 rounded-sm bg-white/5 flex items-center justify-center hover:bg-gold-600 hover:text-dark-900 text-gray-400 transition-all duration-300">
-                <Twitter className="w-5 h-5" />
-              </a>
             </div>
+
           </div>
 
           {/* Quick Links */}
@@ -81,12 +82,13 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-4">
                 <Phone className="w-5 h-5 text-gold-500 flex-shrink-0" />
-                <a href="tel:8809295961" className="text-gray-400 hover:text-gold-500 transition-colors font-light text-sm">+91 88092 95961</a>
+                <a href={`tel:${settings.phone}`} className="text-gray-400 hover:text-gold-500 transition-colors font-light text-sm">{settings.phone}</a>
               </li>
               <li className="flex items-center gap-4">
                 <Mail className="w-5 h-5 text-gold-500 flex-shrink-0" />
-                <a href="mailto:info@goldenshutter.in" className="text-gray-400 hover:text-gold-500 transition-colors font-light text-sm">info@goldenshutter.in</a>
+                <a href={`mailto:${settings.email}`} className="text-gray-400 hover:text-gold-500 transition-colors font-light text-sm">{settings.email}</a>
               </li>
+
             </ul>
           </div>
         </div>
@@ -106,14 +108,15 @@ export default function Footer() {
 
       {/* Mobile Floating Bottom Navigation - Reduced & Polished */}
       <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm bg-dark-900/80 backdrop-blur-xl border border-white/10 z-50 rounded-full h-14 flex justify-around items-center px-4 shadow-2xl shadow-black/50">
-        <a href="tel:8809295961" className="flex flex-col items-center gap-0.5 text-gold-500 transition-transform active:scale-90">
+        <a href={`tel:${settings.phone}`} className="flex flex-col items-center gap-0.5 text-gold-500 transition-transform active:scale-90">
           <Phone className="w-4 h-4" />
           <span className="text-[8px] uppercase font-black tracking-widest">Call</span>
         </a>
-        <a href="https://wa.me/918809295961" className="flex flex-col items-center gap-0.5 text-gray-400 transition-transform active:scale-90">
+        <a href={`https://wa.me/${settings.phone?.replace(/\D/g, '') || '918809295961'}`} className="flex flex-col items-center gap-0.5 text-gray-400 transition-transform active:scale-90">
           <MessageSquare className="w-4 h-4" />
           <span className="text-[8px] uppercase font-black tracking-widest">Wa</span>
         </a>
+
         <a href="#gallery" className="flex flex-col items-center gap-0.5 text-gray-400 transition-transform active:scale-90">
           <Camera className="w-4 h-4" />
           <span className="text-[8px] uppercase font-black tracking-widest">Work</span>

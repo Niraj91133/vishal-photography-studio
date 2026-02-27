@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Phone, Mail, MapPin, Send } from 'lucide-react';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 
 export default function Contact() {
+  const settings = useSiteSettings();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -29,8 +31,10 @@ export default function Contact() {
     Budget: ${formData.budget}%0A
     Message: ${formData.message}`;
 
-    window.open(`https://wa.me/918809295961?text=${message}`, '_blank');
+    const whatsappPhone = settings.phone?.replace(/\D/g, '') || '918809295961';
+    window.open(`https://wa.me/${whatsappPhone}?text=${message}`, '_blank');
   };
+
 
   return (
     <section id="contact" className="py-32 bg-dark-900 relative border-t border-white/5">
@@ -57,7 +61,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="text-white text-lg font-serif mb-1">Phone</h4>
-                  <a href="tel:8809295961" className="text-gray-400 hover:text-gold-400 transition-colors">+91 88092 95961</a>
+                  <a href={`tel:${settings.phone}`} className="text-gray-400 hover:text-gold-400 transition-colors">{settings.phone}</a>
                 </div>
               </div>
 
@@ -67,9 +71,10 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="text-white text-lg font-serif mb-1">Email</h4>
-                  <a href="mailto:contact@goldenshutter.in" className="text-gray-400 hover:text-gold-400 transition-colors">contact@goldenshutter.in</a>
+                  <a href={`mailto:${settings.email}`} className="text-gray-400 hover:text-gold-400 transition-colors">{settings.email}</a>
                 </div>
               </div>
+
 
               <div className="flex items-start group">
                 <div className="w-12 h-12 bg-white/5 rounded-sm flex items-center justify-center mr-6 group-hover:bg-gold-600 transition-colors duration-300 border border-white/10">

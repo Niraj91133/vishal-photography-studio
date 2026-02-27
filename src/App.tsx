@@ -15,8 +15,11 @@ import Footer from './components/Footer';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 import ProtectedRoute from './components/admin/ProtectedRoute';
+import ClientPortal from './pages/ClientPortal';
+import { useSiteSettings } from './hooks/useSiteSettings';
 
 function MainSite() {
+  const settings = useSiteSettings();
   const [activeSection, setActiveSection] = useState('hero');
   const [activeGalleryFilter, setActiveGalleryFilter] = useState('All');
 
@@ -53,20 +56,22 @@ function MainSite() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isHidden = (id: string) => settings.disabled_sections?.includes(id);
+
   return (
     <div className="min-h-screen bg-white text-dark-900 font-sans selection:bg-gold-500 selection:text-white">
       <Header activeSection={activeSection} onNavClick={handleNavClick} />
       <main>
-        <Hero onNavClick={handleNavClick} />
-        <Services onCategoryClick={(cat: string) => handleNavClick('gallery', cat)} />
+        {!isHidden('hero') && <Hero onNavClick={handleNavClick} />}
+        {!isHidden('services') && <Services onCategoryClick={(cat: string) => handleNavClick('gallery', cat)} />}
         <Process />
-        <Gallery activeFilter={activeGalleryFilter} setActiveFilter={setActiveGalleryFilter} />
+        {!isHidden('gallery') && <Gallery activeFilter={activeGalleryFilter} setActiveFilter={setActiveGalleryFilter} />}
         <WhyChooseUs />
-        <Packages />
-        <About />
-        <Testimonials />
+        {!isHidden('packages') && <Packages />}
+        {!isHidden('about') && <About />}
+        {!isHidden('testimonials') && <Testimonials />}
         <CTA />
-        <Contact />
+        {!isHidden('contact') && <Contact />}
       </main>
       <Footer />
 
@@ -76,10 +81,20 @@ function MainSite() {
   );
 }
 
+
 function App() {
+  console.log('App component rendering...');
   return (
+
     <Routes>
       <Route path="/" element={<MainSite />} />
+      <Route path="/clients" element={
+        <>
+          <Header activeSection="" onNavClick={() => { }} />
+          <ClientPortal />
+          <Footer />
+        </>
+      } />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route
         path="/admin/dashboard"
@@ -89,6 +104,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+
     </Routes>
   );
 }
