@@ -228,7 +228,7 @@ export default function AdminDashboard() {
                 formData.append('file', file);
                 formData.append('resource_type', file.type.startsWith('video/') ? 'video' : 'image');
 
-                const response = await fetch('/api/upload', {
+                const response = await fetch('/api/cloudinary-upload', {
                     method: 'POST',
                     body: formData
                 });

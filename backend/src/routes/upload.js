@@ -17,6 +17,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post("/upload", upload.single("file"), uploadMedia);
+router.post("/cloudinary-upload", upload.single("file"), uploadMedia);
 
 export default router;
