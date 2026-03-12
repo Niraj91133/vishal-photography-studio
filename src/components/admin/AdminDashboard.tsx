@@ -224,14 +224,17 @@ export default function AdminDashboard() {
 
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${activeTab}-${Date.now()}-${i}.${fileExt}`;
-                const filePath = `${activeTab}/${fileName}`;
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('resource_type', file.type.startsWith('video/') ? 'video' : 'image');
 
-                const { error: uploadError } = await supabase.storage.from('photos').upload(filePath, file);
-                if (uploadError) throw uploadError;
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
 
-                const { data: { publicUrl } } = supabase.storage.from('photos').getPublicUrl(filePath);
+                if (!response.ok) throw new Error('Cloudinary upload failed');
+                const { url: publicUrl } = await response.json();
 
                 const payload = activeTab === 'clients' ? {
                     name: title,
