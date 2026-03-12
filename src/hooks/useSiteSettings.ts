@@ -13,8 +13,8 @@ export interface SiteSettings {
 
 export function useSiteSettings() {
     const [settings, setSettings] = useState<SiteSettings>({
-        phone: '8809295961',
-        email: 'goldenshutter@gmail.com',
+        phone: '9667517894',
+        email: 'vishalphotography2312@gmail.com',
         facebook_link: '#',
         instagram_link: '#',
         disabled_sections: []

@@ -166,7 +166,7 @@ export default function ClientPortal() {
                             </div>
 
                             <p className="text-[10px] text-gray-600 font-light">
-                                Contact Golden Shutter if you don't have the key.
+                                Contact Vishal Photography if you don't have the key.
                             </p>
                         </div>
                     </div>

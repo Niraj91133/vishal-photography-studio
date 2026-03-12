@@ -62,9 +62,9 @@ export default function Hero({ onNavClick }: HeroProps) {
       {/* Content */}
       <div className="relative z-10 text-center text-white px-6 md:px-12 w-full mt-20">
         <h1 className="font-serif text-[clamp(2.5rem,10vw,5rem)] md:text-8xl font-medium mb-4 md:mb-6 leading-[1.1] md:leading-tight fade-in tracking-tight max-w-4xl mx-auto">
-          Golden Shutter
+          Vishal Photography
           <span className="block text-[clamp(1.5rem,5vw,3rem)] md:text-5xl font-light text-gold-400 mt-2 md:mt-4 italic tracking-normal">
-            Photography
+            Capturing Moments
           </span>
         </h1>
 
@@ -77,7 +77,7 @@ export default function Hero({ onNavClick }: HeroProps) {
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20 fade-in" style={{ animationDelay: '0.4s' }}>
           <a
-            href="tel:8809295961"
+            href="tel:9667517894"
             className="w-full sm:w-auto group relative flex items-center justify-center gap-3 bg-gold-600/90 hover:bg-gold-500 text-dark-900 px-8 py-4 rounded-sm font-medium transition-all duration-300 backdrop-blur-sm overflow-hidden"
           >
             <div className="absolute inset-0 w-full h-full bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>

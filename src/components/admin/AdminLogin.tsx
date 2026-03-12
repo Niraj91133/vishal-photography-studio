@@ -22,8 +22,8 @@ export default function AdminLogin() {
                 .maybeSingle();
 
             // Default credentials if settings not found
-            const validUser = data?.admin_id || 'SumanKumari69';
-            const validPass = data?.admin_password || 'Suman69';
+            const validUser = data?.admin_id || 'Vishalriya26';
+            const validPass = data?.admin_password || 'Vishalriya26';
 
             if (username === validUser && password === validPass) {
                 localStorage.setItem('adminLoggedIn', 'true');

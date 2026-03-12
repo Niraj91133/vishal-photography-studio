@@ -18,7 +18,7 @@ export default function Footer() {
             <div className="flex items-center gap-2 mb-6">
               <Camera className="w-8 h-8 text-gold-600" />
               <span className="text-2xl font-serif font-bold text-white">
-                Golden<span className="text-gold-600">Shutter</span>
+                Vishal<span className="text-gold-600">Photography</span>
               </span>
             </div>
             <p className="text-gray-400 font-light leading-relaxed">
@@ -78,7 +78,7 @@ export default function Footer() {
             <ul className="space-y-6">
               <li className="flex items-start gap-4">
                 <MapPin className="w-5 h-5 text-gold-500 flex-shrink-0 mt-1" />
-                <span className="text-gray-400 font-light text-sm">NH-82, Highway, Opposite City Public School, Sikahar, Gaya, Bihar 823003</span>
+                <span className="text-gray-400 font-light text-sm">Dehri on sone Rattubigha petrol pump near ( Rohtas bihar) Dalmiyanagar, Pin code 821305</span>
               </li>
               <li className="flex items-center gap-4">
                 <Phone className="w-5 h-5 text-gold-500 flex-shrink-0" />
@@ -95,7 +95,7 @@ export default function Footer() {
 
         <div className="border-t border-white/5 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm font-light">
-            © {currentYear} Golden Shutter Photography. All rights reserved.
+            © {currentYear} Vishal Photography. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="/admin/login" className="text-gray-500 hover:text-gold-500 text-xs transition-colors uppercase tracking-widest">Admin Login</a>
@@ -112,7 +112,7 @@ export default function Footer() {
           <Phone className="w-4 h-4" />
           <span className="text-[8px] uppercase font-black tracking-widest">Call</span>
         </a>
-        <a href={`https://wa.me/${settings.phone?.replace(/\D/g, '') || '918809295961'}`} className="flex flex-col items-center gap-0.5 text-gray-400 transition-transform active:scale-90">
+        <a href={`https://wa.me/${settings.phone?.replace(/\D/g, '') || '919667517894'}`} className="flex flex-col items-center gap-0.5 text-gray-400 transition-transform active:scale-90">
           <MessageSquare className="w-4 h-4" />
           <span className="text-[8px] uppercase font-black tracking-widest">Wa</span>
         </a>

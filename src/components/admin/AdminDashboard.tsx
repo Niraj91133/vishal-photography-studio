@@ -243,7 +243,7 @@ export default function AdminDashboard() {
                     url: publicUrl,
                     section: activeTab,
                     category: category,
-                    title: title || 'Golden Moment',
+                    title: title || 'Vishal Moment',
                     description: description,
                     media_type: file.type.startsWith('video/') ? 'video' : 'image'
                 };
@@ -270,7 +270,7 @@ export default function AdminDashboard() {
             {/* Header / Sidebar */}
             <header className="md:w-64 bg-[#0a0a0a] border-b md:border-r border-white/5 sticky top-0 z-[100] md:h-screen">
                 <div className="p-6 md:p-8 flex items-center justify-between">
-                    <h1 className="text-xl font-serif font-bold text-gold-500">GS Admin</h1>
+                    <h1 className="text-xl font-serif font-bold text-gold-500">VP Admin</h1>
                     <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
                         {isMenuOpen ? <X /> : <Layers className="text-gold-500" />}
                     </button>

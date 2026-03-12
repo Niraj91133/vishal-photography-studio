@@ -158,7 +158,7 @@ export default function Packages() {
 
               <div className="flex flex-col gap-4">
                 <a
-                  href="tel:8809295961"
+                  href="tel:9667517894"
                   className={`w-full py-4 px-6 rounded-sm font-medium text-center transition-all duration-300 uppercase tracking-wider text-sm ${pkg.popular
                     ? 'bg-gold-600 hover:bg-gold-500 text-dark-900 shadow-lg hover:shadow-gold-600/20'
                     : 'border border-white/20 text-white hover:bg-white hover:text-dark-900'
@@ -219,7 +219,7 @@ export default function Packages() {
 
                 <div className="flex flex-col gap-3">
                   <a
-                    href="tel:8809295961"
+                    href="tel:9667517894"
                     className={`w-full py-3 px-6 rounded-sm font-medium text-center transition-all duration-300 uppercase tracking-wider text-xs ${pkg.popular
                       ? 'bg-gold-600 text-dark-900'
                       : 'border border-white/20 text-white'
