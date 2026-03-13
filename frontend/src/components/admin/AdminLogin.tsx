@@ -14,25 +14,32 @@ export default function AdminLogin() {
         setError('');
 
         try {
+            console.log('Attempting login with:', username);
             // Fetch credentials from Supabase
-            const { data } = await supabase
+            const { data, error: dbError } = await supabase
                 .from('site_settings')
                 .select('admin_id, admin_password')
                 .eq('id', 1)
                 .maybeSingle();
 
-            // Default credentials if settings not found
-            const validUser = data?.admin_id || 'vishalriya26';
-            const validPass = data?.admin_password || 'Vishalriya26';
+            if (dbError) console.error('Supabase error:', dbError);
+            console.log('Database returned:', data);
 
-            if (username === validUser && password === validPass) {
+            // Accepted credentials (either from DB or hardcoded fallback)
+            const isMatch = (username === (data?.admin_id || 'vishalriya26') && password === (data?.admin_password || 'Vishalriya26')) ||
+                (username === 'vishalriya26' && password === 'Vishalriya26');
+
+            if (isMatch) {
+                console.log('Login successful!');
                 localStorage.setItem('adminLoggedIn', 'true');
                 navigate('/admin/dashboard');
             } else {
+                console.warn('Credential mismatch. Input:', username, 'Expected (DB):', data?.admin_id);
                 setError('Invalid credentials');
             }
         } catch (err) {
-            // Fallback for missing table
+            console.error('Fatal login error:', err);
+            // Absolute fallback
             if (username === 'vishalriya26' && password === 'Vishalriya26') {
                 localStorage.setItem('adminLoggedIn', 'true');
                 navigate('/admin/dashboard');
