@@ -22,7 +22,7 @@ export default function AdminLogin() {
                 .maybeSingle();
 
             // Default credentials if settings not found
-            const validUser = data?.admin_id || 'Vishalriya26';
+            const validUser = data?.admin_id || 'vishalriya26';
             const validPass = data?.admin_password || 'Vishalriya26';
 
             if (username === validUser && password === validPass) {
@@ -33,7 +33,7 @@ export default function AdminLogin() {
             }
         } catch (err) {
             // Fallback for missing table
-            if (username === 'SumanKumari69' && password === 'Suman69') {
+            if (username === 'vishalriya26' && password === 'Vishalriya26') {
                 localStorage.setItem('adminLoggedIn', 'true');
                 navigate('/admin/dashboard');
             } else {
